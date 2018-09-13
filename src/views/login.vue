@@ -1,36 +1,55 @@
 <template>
-    <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-position="left" label-width="0px" class="demo-ruleForm login-container">
+    <el-form 
+        :model="ruleForm" 
+        :rules="rules" 
+        ref="ruleForm" 
+        label-position="left" 
+        label-width="0px" 
+        class="demo-ruleForm login-container">
+
         <h3 class="title">系统登录</h3>
         <el-form-item prop="account">
-            <el-input type="text" v-model="ruleForm2.account" auto-complete="off" placeholder="账号"></el-input>
+            <el-input 
+                type="text" 
+                v-model="ruleForm.account" 
+                auto-complete="off" 
+                placeholder="账号"></el-input>
         </el-form-item>
+
         <el-form-item prop="checkPass">
-            <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off" placeholder="密码"></el-input>
+            <el-input 
+                type="password" 
+                v-model="ruleForm.checkPass" 
+                auto-complete="off" 
+                placeholder="密码"></el-input>
         </el-form-item>
+
         <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>
+
         <el-form-item style="width:100%;">
-            <el-button type="primary" style="width:100%;" :loading="logining" @click="handleSubmit2">登录</el-button>
+            <el-button 
+                type="primary" 
+                style="width:100%;" 
+                :loading="logining" 
+                @click="handleSubmit">登录</el-button>
         </el-form-item>
     </el-form>
 </template>
 
 <script>
 import axios from 'axios'
-import {
-    mapActions,
-    mapGetters
-} from 'vuex'
-import store from '../store/store'
-import menuData from '../assets/common'
+import lazyLoading from '../assets/lazy'
+import menuD from '../assets/common' // 这里的数据模拟后台返回的数据
+import { mapState, mapMutations } from 'vuex'
 export default {
     data() {
         return {
             logining: false,
-            ruleForm2: {
+            ruleForm: {
                 account: 'admin',
                 checkPass: '123456'
             },
-            rules2: {
+            rules: {
                 account: [{
                     required: true,
                     message: '请输入账号',
@@ -46,59 +65,40 @@ export default {
         };
     },
     computed: {
-        ...mapGetters([
-            'menuitems',
-            'isLoadRoutes'
-        ])
+        ...mapState({
+            menuData: state => state.menu,
+        }),
     },
     methods: {
-        handleSubmit2() {
+        ...mapMutations([
+            'addMenu'
+        ]),
+        handleSubmit() {
             this.logining = true;
-            this.$refs.ruleForm2.validate((valid) => {
+            this.$refs.ruleForm.validate((valid) => {
                 if (valid) {
-                    sessionStorage.setItem('user', '222');
-                    sessionStorage.setItem('data', JSON.stringify(menuData));
-                    this.addMenu(menuData)
-                    if (!this.isLoadRoutes) {
-                        for (var i = 0; i < menuData.length; i++) {
-                            let item = menuData[i]
-                            this.$router.options.routes.push(item)
-                        }
-                        this.$router.addRoutes(this.menuitems)
-                        this.loadRoutes()
-                    }
+                    localStorage.setItem('token1', 'token1');
+                    // 将获取到的菜单存在本地
+                    localStorage.setItem('data', JSON.stringify(menuD));
+                    // vuex定义的添加菜单，把后台返回的数据添加到vuex中,
+                    this.addMenu(menuD)
 
+                    this.$router.addRoutes(this.menuData)
+                    this.$router.options.routes.push(...this.menuData)
+                    // })
 
                     this.$router.push({
-                        path: '/404'
+                        path: '/chart'
                     });
                     this.logining = false;
-
-
                 } else {
                     console.log('error submit!!');
                     return false;
                 }
             });
         },
-        ...mapActions([
-            'addMenu',
-            'loadRoutes'
-        ])
-    }
+    },
 }
-
-function generateRoutesFromMenu(menu = [], routes = []) {
-    debugger
-    for (let i = 0, l = menu.length; i < l; i++) {
-        let item = menu[i]
-        if (item.path) {
-            routes.push(item)
-        }
-    }
-    return routes
-}
-
 
 </script>
 
