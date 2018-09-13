@@ -1,2 +1,3 @@
-export default (name) => () =>
-import (`@/views/${name}.vue`)
+export default (name) => (resolve) => 
+require ([`@/pages/${name}.vue`], resolve)
+ 
