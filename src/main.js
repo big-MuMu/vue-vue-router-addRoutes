@@ -4,55 +4,48 @@ import Vue from 'vue'
 import App from './App'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
-import VueQuillEditor from 'vue-quill-editor'
 import VueRouter from 'vue-router'
 import routes from './router/index'
 import 'font-awesome/css/font-awesome.min.css'
 import axios from 'axios'
 import store from './store/store'
-import { mapMutations } from 'vuex'
+import lazyLoading from './assets/lazy'
 Vue.use(ElementUI)
 Vue.use(VueRouter)
-Vue.use(VueQuillEditor)
 Vue.config.productionTip = false
 const router = new VueRouter({ routes })
-let permission = JSON.parse(window.sessionStorage.getItem('data'))
+
+window.log = console.log.bind(console);
+// 刷新页面后，路由表里会只剩下本地定义的 ，没有登录后添加的，所以这里再处理一下
+let permission = localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data')) : null;
 if (permission) {
-    store.commit('addMenu', permission)
-    for (var i = 0; i < permission.length; i++) {
-        let item = permission[i]
+    store.commit('addMenu', permission);
+    /* permission.forEach((item) => {
+        item.component = lazyLoading(item.component)
+        item.children.forEach((child) => {
+            child.component = lazyLoading(child.component)
+        })
         router.options.routes.push(item)
-
-    }
+    }) */
     router.addRoutes(permission)
+    router.options.routes.push(...permission)
 }
 
-function generateRoutesFromMenu(menu = [], routes = []) {
-    for (let i = 0, l = menu.length; i < l; i++) {
-        let item = menu[i]
-        if (item.path) {
-            routes.push(item)
-        }
-    }
-    return routes
-}
-
-
+// 路由守卫
 router.beforeEach((route, redirect, next) => {
 
     if (route.path === '/login') {
-        window.sessionStorage.removeItem('user')
-        window.sessionStorage.removeItem('data')
-        store.commit('addMenu', [])
+        localStorage.removeItem('token1')
     }
-    let user = JSON.parse(window.sessionStorage.getItem('user'))
+    let user = localStorage.getItem('token1')
+    
     if (!user && route.path !== '/login') {
         next({ path: '/login' })
     } else {
         if (route.name != '') {
             next()
         } else {
-            next({ path: '/nofound' })
+            next({ path: '/chart' })
         }
     }
 })
