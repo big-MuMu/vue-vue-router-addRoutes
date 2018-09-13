@@ -4,13 +4,13 @@ const menuData = [{
     icon: 'el-icon-information',
     name: '菜单一',
     children: [
-        { path: '/menu1-1', component: 'menu1/menu1-1', name: '表格' },
-        { path: '/menu1-2', component: 'meu1/menu1-2', name: 'menu1-2', hidden: true },
-        { path: '/menu1-3', component: 'menu1/menu1-3', name: '表单' },
+        { path: '/table', component: 'menu1/table', name: '表格' },
+        { path: '/form', component: 'menu1/form', name: 'form' },
+        { path: '/draggable', component: 'menu1/draggable', name: '可拖拽表格', hidden: true },
     ]
 }, {
     path: '/',
-    component: require('@/views/home.vue'),
+    component: 'home',
     name: '菜单二',
     icon: 'el-icon-message', //图标样式class
     children: [
@@ -19,7 +19,7 @@ const menuData = [{
     ]
 }, {
     path: '/',
-    component: require('@/views/home.vue'),
+    component: 'home',
     name: '菜单三',
     icon: 'el-icon-message', //图标样式class
     children: [
@@ -27,7 +27,7 @@ const menuData = [{
     ]
 }, {
     path: '/',
-    component: require('@/views/home.vue'),
+    component: 'home',
     icon: 'el-icon-document',
     children: [
         { path: '/menu5', component: 'menu5', name: '系统通知' },
