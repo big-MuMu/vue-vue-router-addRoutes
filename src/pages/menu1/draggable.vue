@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-dialog title="列表设置" 
+        <!-- <el-dialog title="列表设置" 
             :visible.sync="dialogVisibleCol" 
             size="small" 
             :before-close="dialogHandleClose">
@@ -51,7 +51,7 @@
                 <el-button type="primary" @click="setColSetData(1)">确 定</el-button>
                 <el-button @click="setColSetData(0)">还原默认设置</el-button>
             </span>
-        </el-dialog>
+        </el-dialog> -->
     </div>
 </template>
 
@@ -68,8 +68,6 @@ export default {
             dialogVisibleCol: false, // dialog是否显示
             dataColSet: [],    //列设置显示数据
             dataColSet_c: [],
-            sourceTypes: [this.$kgw.config.parmenters.sourceType.PRODUCE_PICK, this.$kgw.config.parmenters.sourceType.PRODUCE_FED, this.$kgw.config.parmenters.sourceType.PRODUCE_RETURN], // 领、退、补单据
-            customs: ['proGoodsSerial', 'proGoodsName', 'proSpecValue', 'proUnitCode', 'sourceSerial'], // 领、退、补列设置中要隐藏的字段
         }
     },
     methods: {
@@ -160,17 +158,6 @@ export default {
 
         }
 
-    },
-    watch: {
-        value(val) {
-            this.dialogVisibleCol = val
-            if (val) {
-                this.getColSetData()
-            }
-        },
-        dialogVisibleCol(val) {
-            this.$emit("input", val)
-        }
     },
    /* mounted() {
         this.initialTableTh = this.$kgw.config.parmenters.colTableTitleWidth[this.$route.meta.tableId]
