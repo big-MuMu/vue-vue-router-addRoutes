@@ -6,7 +6,7 @@ const menuData = [{
     children: [
         { path: '/table', component: 'menu1/table', name: '表格' },
         { path: '/form', component: 'menu1/form', name: 'form' },
-        { path: '/draggable', component: 'menu1/draggable', name: '可拖拽表格', hidden: true },
+        { path: '/draggable', component: 'menu1/draggable', name: '可拖拽表格' },
     ]
 }, {
     path: '/',

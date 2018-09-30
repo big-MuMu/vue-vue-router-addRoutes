@@ -38,7 +38,7 @@
 
 <script>
 import axios from 'axios'
-import lazyLoading from '../assets/lazy'
+import lazyLoading from '../utils/index'
 import menuD from '../assets/common' // 这里的数据模拟后台返回的数据
 import { mapState, mapMutations } from 'vuex'
 export default {

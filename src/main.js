@@ -9,7 +9,6 @@ import routes from './router/index'
 import 'font-awesome/css/font-awesome.min.css'
 import axios from 'axios'
 import store from './store/store'
-import lazyLoading from './assets/lazy'
 Vue.use(ElementUI)
 Vue.use(VueRouter)
 Vue.config.productionTip = false
@@ -20,13 +19,6 @@ window.log = console.log.bind(console);
 let permission = localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data')) : null;
 if (permission) {
     store.commit('addMenu', permission);
-    /* permission.forEach((item) => {
-        item.component = lazyLoading(item.component)
-        item.children.forEach((child) => {
-            child.component = lazyLoading(child.component)
-        })
-        router.options.routes.push(item)
-    }) */
     router.addRoutes(permission)
     router.options.routes.push(...permission)
 }

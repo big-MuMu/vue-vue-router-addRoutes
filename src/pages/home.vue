@@ -1,9 +1,14 @@
 <template>
     <el-row :gutter="20">
-        <el-col :span="24" class="topTitle">管理系统</el-col>
+        <el-col :span="24">
+            <div class="topTitle">
+                <span>后台管理</span>
+                <span style="float: right; cursor: pointer;" @click="exit">退出</span>
+            </div>
+            
+        </el-col>
         <el-col :span="4">
             <el-menu :default-active="$route.path" class="el-menu-vertical-demo" unique-opened router>
-                
 
                 <template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
                     <el-submenu :index="index+''" v-if="item.children&&item.children.length>1">
@@ -32,12 +37,28 @@
     </el-row>
 </template>
 
+<script>
+export default {
+    methods: {
+        exit() {
+            this.$store.commit('clear'); // 清空vuex的数据
+            localStorage.clear();
+            this.$router.push({path: '/login'})
+        }
+    }
+}
+</script>
+
+
 <style>
     .topTitle {
         height: 80px;
+        width: 100%;
         line-height: 80px;
         background: #58B7FF;
         color: #fff;
+        padding: 0 30px;
+        box-sizing: border-box;
     }
     .container {
         padding-top: 20px;

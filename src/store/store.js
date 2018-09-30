@@ -1,11 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import lazyLoading from '../assets/lazy'
+import lazyLoading from '../utils/index'
 Vue.use(Vuex)
 const store = new Vuex.Store({
     state: {
         menu: [],
-        // isLoadRoutes: false
     },
     mutations: {
         addMenu(state, menuItems = []) {
@@ -22,13 +21,11 @@ const store = new Vuex.Store({
                     // console.log(child.component)
                 })
             })
-            // this.$router.addRoutes(menuItems)
-            // state.items.push(...menuItems)
             state.menu = [...state.menu, ...menuItems];
         },
-        /* loadRoutes(state) {
-            state.isLoadRoutes = !state.isLoadRoutes
-        } */
+        clear(state) {
+            state.menu = [];
+        }
     }
 })
 
