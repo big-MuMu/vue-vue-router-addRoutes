@@ -1,7 +1,7 @@
 {
   "name": "myadmin",
   "version": "1.0.0",
-  "description": "A Vue.js project",
+  "description": "Vue, addRouter",
   "author": "zs",
   "private": true,
   "scripts": {
